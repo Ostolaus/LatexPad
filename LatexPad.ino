@@ -20,24 +20,24 @@ enum Modes {standard, symbols, greek};
 enum Flip {normal, flipped};
 
 int flip_mode = normal;
-int pad_mode = standard;
+int mode = standard;
 
 char color_array[ROWS][COLS];
 
 char keys[ROWS][COLS] = {
-  {'1', '2', '3', 'b', 'F'},
-  {'4', '5', '6', 'B', 'G'},
-  {'7', '8', '9', 'C', 'H'},
-  {'0', 'u', 'A', 'D', 'I'},
-  {'l', 'd', 'r', 'E', 'J'},
+  {'1', '2', '3', 'A', 'B'},
+  {'4', '5', '6', 'C', 'D'},
+  {'7', '8', '9', 'E', 'F'},
+  {'G', '0', 'H', 'I', 'J'},
+  {'K', 'L', 'M', 'N', 'O'},
 };
 
 char keys_flipped[ROWS][COLS] = {
-  {'J', 'E', 'r', 'd', 'l'},
-  {'I', 'D', 'b', 'u', '0'},
-  {'H', 'C', '9', '8', '7'},
-  {'G', 'B', '6', '5', '4'},
-  {'F', 'A', '3', '2', '1'},
+  {'O', 'N', 'M', 'L', 'K'},
+  {'J', 'I', 'H', '0', 'G'},
+  {'F', 'E', '9', '8', '7'},
+  {'D', 'C', '6', '5', '4'},
+  {'B', 'A', '3', '2', '1'},
 };
 
 byte rowPins[ROWS] = {2, 3, 4, 5, 6}; //connect to the row pinouts of the keypad
@@ -223,10 +223,9 @@ void saveToColorArray(char temp_Array[ROWS][COLS])
   }
 }
 
-
 void DefineLED()
 {
-  switch (pad_mode)
+  switch (mode)
   {
     case standard:
       if (flip_mode == normal)
@@ -313,16 +312,16 @@ void DefineLED()
 
 void iteratePadMode()
 {
-  switch (pad_mode)
+  switch (mode)
   {
     case standard:
-      pad_mode = symbols;
+      mode = symbols;
       break;
     case symbols:
-      pad_mode = greek;
+      mode = greek;
       break;
     case greek:
-      pad_mode = standard;
+      mode = standard;
       break;
   }
 }
@@ -361,16 +360,26 @@ void loop() {
 
     switch (key) {
       case '1':
-        if (pad_mode == standard)
+        if (mode == standard)
         {
           Keyboard.print("1");
         }
-        if (pad_mode == symbols)
+        if (mode == symbols)
         {
           printSZ('\\');
-          Keyboard.print("left(");
+          Keyboard.print("begin");
+          printSZ('{');
+          Keyboard.print("align*");
+          printSZ('}');
+          Keyboard.print("\n\n");
+          printSZ('\\');
+          Keyboard.print("end");
+          printSZ('{');
+          Keyboard.print("align*");
+          printSZ('}');
+          moveUp(1);
         }
-        if (pad_mode == greek)
+        if (mode == greek)
         {
           printSZ('\\');
           Keyboard.print("alpha");
@@ -378,16 +387,16 @@ void loop() {
         break;
 
       case '2':
-        if (pad_mode == standard)
+        if (mode == standard)
         {
           Keyboard.print("2");
         }
-        if (pad_mode == symbols)
+        if (mode == symbols)
         {
-          printSZ('\\');
-          Keyboard.print("right)");
+          printSZ('$');
+          printSZ('$');
         }
-        if (pad_mode == greek)
+        if (mode == greek)
         {
           printSZ('\\');
           Keyboard.print("beta");
@@ -395,41 +404,33 @@ void loop() {
         break;
 
       case '3':
-        if (pad_mode == standard)
+        if (mode == standard)
         {
           Keyboard.print("3");
         }
-        if (pad_mode == symbols)
+        if (mode == symbols)
         {
           printSZ('\\');
-          Keyboard.print("left");
-          printSZ('{');
+          printSZ('\\');
         }
-        if (pad_mode == greek)
+        if (mode == greek)
         {
           printSZ('\\');
           Keyboard.print("gamma");
         }
         break;
+
       case '4':
-        if (pad_mode == standard)
+        if (mode == standard)
         {
           Keyboard.print("4");
         }
-        if (pad_mode == symbols)
+        if (mode == symbols)
         {
           printSZ('\\');
-          Keyboard.print("int");
-          printSZ('\\');
-          Keyboard.print("limits_");
-          printSZ('{');
-          printSZ('}');
-          Keyboard.print("^");
-          printSZ('{');
-          printSZ('}');
-          moveLeft(4);
+          Keyboard.print("ll");
         }
-        if (pad_mode == greek)
+        if (mode == greek)
         {
           printSZ('\\');
           Keyboard.print("eta");
@@ -437,11 +438,97 @@ void loop() {
         break;
 
       case '5':
-        if (pad_mode == standard)
+        if (mode == standard)
         {
           Keyboard.print("5");
         }
-        if (pad_mode == symbols)
+        if (mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("leq");
+        }
+        if (mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("theta");
+        }
+        break;
+
+      case '6':
+        if (mode == standard)
+        {
+          Keyboard.print("6");
+        }
+        if (mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("neq");
+        }
+        if (mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("kappa");
+        }
+        break;
+
+      case '7':
+        if (mode == standard)
+        {
+          Keyboard.print("7");
+        }
+        if (mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("left(");
+        }
+        if (mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("pi");
+        }
+        break;
+
+      case '8':
+        if (mode == standard)
+        {
+          Keyboard.print("8");
+        }
+        if (mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("right)");
+        }
+        if (mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("rho");
+        }
+        break;
+
+      case '9':
+        if (mode == standard)
+        {
+          Keyboard.print("9");
+        }
+        if (mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("left");
+          printSZ('{');
+        }
+        if (mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("sigma");
+        }
+        break;
+
+      case '0':
+        if (mode == standard)
+        {
+          Keyboard.print("0");
+        }
+        if (mode == symbols)
         {
           printSZ('\\');
           Keyboard.print("sum");
@@ -454,164 +541,318 @@ void loop() {
           printSZ('}');
           moveLeft(4);
         }
-        if (pad_mode == greek)
+        if (mode == greek)
         {
           printSZ('\\');
-          Keyboard.print("theta");
+          Keyboard.print("Theta");
         }
         break;
 
-      case '6':
-        if (pad_mode == standard)
+      case 'A':
+        if (mode == standard)
         {
-          Keyboard.print("6");
+          Keyboard.press(KEY_BACKSPACE);
+          Keyboard.releaseAll();
         }
-        if (pad_mode == symbols)
+        if (mode == symbols)
         {
           printSZ('\\');
-          Keyboard.print("oint_");
+          Keyboard.print("mathbb");
+          printSZ('{');
+          printSZ('}');
+          moveLeft(1);
+        }
+        if (mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("delta");
+        }
+        break;
+
+
+      case 'B':
+        if (mode == standard)
+        {
+          printSZ('\\');
+          Keyboard.print("sqrt");
+          printSZ('{');
+          printSZ('}');
+          moveLeft(1);
+        }
+        if (mode == symbols)
+        {
+          //TBD
+        }
+        if (mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("epsilon");
+        }
+        break;
+
+      case 'C':
+        if (mode == standard)
+        {
+          Keyboard.print("_");
+          printSZ('{');
+          printSZ('}');
+        }
+        if (mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("geq");
+        }
+        if (mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("lambda");
+        }
+        break;
+
+      case 'D':
+        if (mode == standard)
+        {
+          Keyboard.print("^");
+          printSZ('{');
+          printSZ('}');
+        }
+        if (mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("gg");
+        }
+        if (mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("mu");
+        }
+        break;
+
+      case 'E':
+        if (mode == standard)
+        {
+          Keyboard.press(KEY_LEFT_CTRL);
+          Keyboard.press("c");
+          Keyboard.releaseAll();
+        }
+        if (mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("right");
+          printSZ('}');
+        }
+        if (mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("tau");
+        }
+        break;
+
+      case 'F':
+        if (mode == standard)
+        {
+          Keyboard.press(KEY_LEFT_CTRL);
+          Keyboard.press("x");
+          Keyboard.releaseAll();
+        }
+        if (mode == symbols)
+        {
+          //TBD
+        }
+        if (mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("varphi");
+        }
+        break;
+
+      case 'G':
+        if (mode == standard)
+        {
+          printSZ('\\');
+          Keyboard.print("cdot");
+        }
+        if (mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("int");
+          printSZ('\\');
+          Keyboard.print("limits_");
           printSZ('{');
           printSZ('}');
           Keyboard.print("^");
           printSZ('{');
           printSZ('}');
-          moveLeft(1);
+          moveLeft(4);
         }
-        if (pad_mode == greek)
+        if (mode == greek)
         {
           printSZ('\\');
-          Keyboard.print("kappa");
+          Keyboard.print("omega");
         }
         break;
 
-      case '7':
-        if (pad_mode == standard)
-        {
-          Keyboard.print("7");
-        }
-        if (pad_mode == symbols)
+      case 'H':
+        if (mode == standard)
         {
           printSZ('\\');
-          Keyboard.print("ll");
+          Keyboard.print("frac");
+          printSZ('{');
+          printSZ('}');
+          printSZ('{');
+          printSZ('}');
+          moveLeft(3);
         }
-        if (pad_mode == greek)
+        if (mode == symbols)
         {
           printSZ('\\');
-          Keyboard.print("pi");
+          Keyboard.print("oint");
+          printSZ('\\');
+          Keyboard.print("limits_");
+          printSZ('{');
+          printSZ('}');
+          Keyboard.print("^");
+          printSZ('{');
+          printSZ('}');
+          moveLeft(4);
         }
-        break;
-
-      case '8':
-        if (pad_mode == standard)
-        {
-          Keyboard.print("8");
-        }
-        if (pad_mode == symbols)
+        if (mode == greek)
         {
           printSZ('\\');
-          Keyboard.print("leq");
+          Keyboard.print("Psi");
         }
-        if (pad_mode == greek)
+        break;
+
+      case 'I':
+        if (mode == standard)
+        {
+          Keyboard.press(KEY_LEFT_CTRL);
+          Keyboard.press("v");
+          Keyboard.releaseAll();
+        }
+        if (mode == symbols)
         {
           printSZ('\\');
-          Keyboard.print("rho");
+          Keyboard.print("ooint");
+          printSZ('\\');
+          Keyboard.print("limits_");
+          printSZ('{');
+          printSZ('}');
+          Keyboard.print("^");
+          printSZ('{');
+          printSZ('}');
+          moveLeft(4);
         }
-        break;
-
-      case '9':
-        if (pad_mode == standard)
-        {
-          Keyboard.print("9");
-        }
-        if (pad_mode == symbols)
-        {
-          Keyboard.print("=");
-        }
-        if (pad_mode == greek)
+        if (mode == greek)
         {
           printSZ('\\');
-          Keyboard.print("pi");
+          Keyboard.print("Omega");
         }
-        break;
-
-      case '0':
-        Keyboard.print("0");
-        break;
-
-      case 'b':
-        Keyboard.press(KEY_BACKSPACE);
-        Keyboard.releaseAll();
-        break;
-
-      case 'u':
-        moveUp(1);
-        break;
-
-      case 'd':
-        moveDown(1);
-        break;
-
-      case 'l':
-        moveLeft(1);
-        break;
-
-      case 'r':
-        moveRight(1);
-        break;
-
-      case 'A':
-
-        break;
-
-      case 'B':
-        printSZ('\\');
-        Keyboard.print("frac");
-        printSZ('{');
-        printSZ('}');
-        printSZ('{');
-        printSZ('}');
-
-        moveLeft(3);
-        break;
-
-      case 'E':
-        iterateFlipMode();
-        break;
-
-      case 'F':
-        printSZ('\\');
-
-        Keyboard.print("begin");
-        printSZ('{');
-        Keyboard.print("align*");
-        printSZ('}');
-        Keyboard.print("\n \n");
-        printSZ('\\');
-        Keyboard.print("end");
-        printSZ('{');
-        Keyboard.print("align*");
-        printSZ('}');
-
-        break;
-
-      case 'G':
-        printSZ('\\');
-        Keyboard.print("cdot ");
         break;
 
       case 'J':
-        iteratePadMode();
+        if (mode == standard)
+        {
+          Keyboard.press(KEY_LEFT_CTRL);
+          Keyboard.press("z");
+          Keyboard.releaseAll();
+        }
+        if (mode == symbols)
+        {
+          //Shift TBD
+        }
+        if (mode == greek)
+        {
+          //Shift TBD
+        }
         break;
 
+      case 'K':
+        if (mode == standard)
+        {
+          Keyboard.print("e^");
+          printSZ('{');
+          printSZ('}');
+          moveLeft(1);
+        }
+        if (mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("vec");
+          printSZ('{');
+          printSZ('}');
+          moveLeft(1);
+        }
+        if (mode == greek)
+        {
+          Keyboard.print("sin()");
+          moveLeft(1);
+        }
+        break;
 
+      case 'L':
+        if (mode == standard)
+        {
+          Keyboard.print("10^");
+          printSZ('{');
+          printSZ('}');
+          moveLeft(1);
+        }
+        if (mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("begin");
+          printSZ('{');
+          Keyboard.print("pmatrix*");
+          printSZ('}');
+          Keyboard.print("\n\n");
+          printSZ('\\');
+          Keyboard.print("end");
+          printSZ('{');
+          Keyboard.print("pmatrix*");
+          printSZ('}');
+          moveUp(1);
+        }
+        if (mode == greek)
+        {
+          Keyboard.print("cos()");
+          moveLeft(1);
+        }
+        break;
+
+      case 'M':
+        if (mode == standard)
+        {
+          Keyboard.print("10^");
+          printSZ('{');
+          Keyboard.print("-");
+          printSZ('}');
+          moveLeft(1);
+        }
+        if (mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("infty");
+        }
+        if (mode == greek)
+        {
+          Keyboard.print("tan()");
+          moveLeft(1);
+        }
+        break;
+
+      case 'N':
+        iterateFlipMode();
+        break;
+
+      case 'O':
+        iteratePadMode();
+        break;
     }
     delay(100);
     Keyboard.releaseAll(); // this releases the buttons
     Keyboard.press(KEY_LEFT_SHIFT);
     Keyboard.press(KEY_LEFT_ALT);
     Keyboard.releaseAll();
-
-    /*TODO Flip Tastenkombination zum Umdrehen, falls usb port auf der anderen seite sein soll
-    */
   }
 }
