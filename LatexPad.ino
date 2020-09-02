@@ -35,15 +35,16 @@ char keys[ROWS][COLS] = {
 char keys_flipped[ROWS][COLS] = {
   {'J', 'E', 'r', 'd', 'l'},
   {'I', 'D', 'b', 'u', '0'},
-  {'H', 'C', '3', '2', '1'},
+  {'H', 'C', '9', '8', '7'},
   {'G', 'B', '6', '5', '4'},
-  {'F', 'A', '9', '8', '7'},
+  {'F', 'A', '3', '2', '1'},
 };
 
 byte rowPins[ROWS] = {2, 3, 4, 5, 6}; //connect to the row pinouts of the keypad
 byte colPins[COLS] = {7, 8, 9 , 10, 16}; //connect to the column pinouts of the keypad
 
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
+Keypad keypad_flipped = Keypad( makeKeymap(keys_flipped), rowPins, colPins, ROWS, COLS );
 
 void setup() {
   FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS);
@@ -139,14 +140,20 @@ void switchLED()
           case'B':
             leds[counter] = CRGB::Blue;
             break;
-          case'P':
+          case'V':
             leds[counter] = CRGB::Purple;
             break;
           case 'O':
-            leds[counter] = CRGB::Orange;
+            leds[counter] = CRGB::OrangeRed;
             break;
           case 'W':
             leds[counter] = CRGB::White;
+            break;
+          case 'Y':
+            leds[counter] = CRGB::Orange;
+            break;
+          case 'P':
+            leds[counter] = CRGB::Teal;
             break;
         }
 
@@ -177,14 +184,20 @@ void switchLED()
           case'B':
             leds[counter] = CRGB::Blue;
             break;
-          case'P':
+          case'V':
             leds[counter] = CRGB::Purple;
             break;
           case 'O':
-            leds[counter] = CRGB::Orange;
+            leds[counter] = CRGB::OrangeRed;
             break;
           case 'W':
             leds[counter] = CRGB::White;
+            break;
+          case 'Y':
+            leds[counter] = CRGB::Orange;
+            break;
+          case 'P':
+            leds[counter] = CRGB::Teal;
             break;
         }
 
@@ -221,18 +234,18 @@ void DefineLED()
         char temp_color_array[ROWS][COLS] = {
           {'G', 'G', 'G', 'R', 'R'},
           {'G', 'G', 'G', 'R', 'R'},
-          {'G', 'G', 'G', 'R', 'R'},
-          {'G', 'B', 'R', 'R', 'R'},
-          {'B', 'B', 'B', 'P', 'P'},
+          {'G', 'G', 'G', 'O', 'O'},
+          {'B', 'G', 'B', 'O', 'O'},
+          {'V', 'V', 'V', 'Y', 'Y'},
         };
         saveToColorArray(temp_color_array);
         switchLED();
       } else
       {
         char temp_color_array[ROWS][COLS] = {
-          {'P', 'P', 'B', 'B', 'B'},
-          {'R', 'R', 'R', 'B', 'G'},
-          {'R', 'R', 'G', 'G', 'G'},
+          {'Y', 'Y', 'V', 'V', 'V'},
+          {'O', 'O', 'B', 'G', 'B'},
+          {'O', 'O', 'G', 'G', 'G'},
           {'R', 'R', 'G', 'G', 'G'},
           {'R', 'R', 'G', 'G', 'G'},
         };
@@ -245,22 +258,22 @@ void DefineLED()
       if (flip_mode == normal)
       {
         char temp_color_array[ROWS][COLS] = {
-          {'G', 'W', 'W', 'W', 'W'},
-          {'R', 'R', 'R', 'R', 'R'},
-          {'B', 'B', 'B', 'B', 'G'},
-          {'O', 'O', 'O', 'O', 'P'},
-          {'B', 'B', 'B', 'P', 'P'},
+          {'G', 'G', 'G', 'W', 'W'},
+          {'P', 'P', 'P', 'P', 'P'},
+          {'B', 'B', 'B', 'B', 'B'},
+          {'O', 'O', 'O', 'O', 'Y'},
+          {'R', 'R', 'R', 'Y', 'Y'},
         };
         saveToColorArray(temp_color_array);
         switchLED();
       } else
       {
         char temp_color_array[ROWS][COLS] = {
-          {'P', 'P', 'B', 'B', 'B'},
-          {'P', 'R', 'R', 'B', 'G'},
-          {'R', 'R', 'G', 'G', 'G'},
-          {'R', 'R', 'G', 'G', 'G'},
-          {'R', 'R', 'G', 'G', 'G'},
+          {'Y', 'Y', 'R', 'R', 'R'},
+          {'Y', 'O', 'O', 'O', 'O'},
+          {'B', 'B', 'B', 'B', 'B'},
+          {'P', 'P', 'P', 'P', 'P'},
+          {'W', 'W', 'G', 'G', 'G'},
         };
         saveToColorArray(temp_color_array);
         switchLED();
@@ -273,16 +286,16 @@ void DefineLED()
           {'R', 'R', 'R', 'R', 'R'},
           {'R', 'R', 'R', 'R', 'R'},
           {'R', 'R', 'R', 'R', 'R'},
-          {'R', 'R', 'R', 'R', 'P'},
-          {'B', 'B', 'B', 'P', 'P'},
+          {'R', 'R', 'R', 'R', 'Y'},
+          {'O', 'O', 'O', 'Y', 'Y'},
         };
         saveToColorArray(temp_color_array);
         switchLED();
       } else
       {
         char temp_color_array[ROWS][COLS] = {
-          {'P', 'P', 'B', 'B', 'B'},
-          {'P', 'R', 'R', 'R', 'R'},
+          {'Y', 'Y', 'O', 'O', 'O'},
+          {'Y', 'R', 'R', 'R', 'R'},
           {'R', 'R', 'R', 'R', 'R'},
           {'R', 'R', 'R', 'R', 'R'},
           {'R', 'R', 'R', 'R', 'R'},
@@ -291,7 +304,7 @@ void DefineLED()
         switchLED();
       }
       break;
-   }
+  }
 
 
 
@@ -327,9 +340,19 @@ void iterateFlipMode()
   }
 }
 
+
+
 void loop() {
   DefineLED();
-  char key = keypad.getKey();
+  char key;
+  switch (flip_mode) {
+    case normal:
+      key = keypad.getKey();
+      break;
+    case flipped:
+      key = keypad_flipped.getKey();
+      break;
+  }
   if (key) {
     Keyboard.press(KEY_LEFT_SHIFT);
     Keyboard.press(KEY_LEFT_ALT);
