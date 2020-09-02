@@ -16,7 +16,7 @@ CRGB leds[NUM_LEDS];
 
 
 
-enum Modes {standard, symbols, greek, style};
+enum Modes {standard, symbols, greek};
 enum Flip {normal, flipped};
 
 int flip_mode = normal;
@@ -25,10 +25,10 @@ int pad_mode = standard;
 char color_array[ROWS][COLS];
 
 char keys[ROWS][COLS] = {
-  {'1', '2', '3', 'A', 'F'},
+  {'1', '2', '3', 'b', 'F'},
   {'4', '5', '6', 'B', 'G'},
   {'7', '8', '9', 'C', 'H'},
-  {'0', 'u', 'b', 'D', 'I'},
+  {'0', 'u', 'A', 'D', 'I'},
   {'l', 'd', 'r', 'E', 'J'},
 };
 
@@ -41,13 +41,13 @@ char keys_flipped[ROWS][COLS] = {
 };
 
 byte rowPins[ROWS] = {2, 3, 4, 5, 6}; //connect to the row pinouts of the keypad
-byte colPins[COLS] = {7, 8, 9 , 10, 11}; //connect to the column pinouts of the keypad
+byte colPins[COLS] = {7, 8, 9 , 10, 16}; //connect to the column pinouts of the keypad
 
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 
 void setup() {
-  FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
-  FastLED.setBrightness(1);
+  FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS);
+  FastLED.setBrightness(5);
   Serial.begin(9600);
   Keyboard.begin();
 }
@@ -68,6 +68,11 @@ void printSZ(char a)
   }
   else if (a == '\\')
   {
+    Keyboard.print("\r \n");
+    Keyboard.press(KEY_BACKSPACE);
+    Keyboard.releaseAll();
+    Keyboard.press(KEY_BACKSPACE);
+    Keyboard.releaseAll();
     Keyboard.press(185);
     Keyboard.releaseAll();
   }
@@ -114,24 +119,6 @@ void moveDown(int count)
   }
 }
 
-int wait_for_number()
-{
-  char key = keypad.getKey();
-  if ( 48 <= key  && key <= 57)
-  {
-    key = key - 48;
-    return key;
-  }
-  if (key == '#')
-  {
-    return 0;
-  }
-  else
-  {
-    wait_for_number();
-  }
-}
-
 void switchLED()
 {
   int counter = 0;
@@ -144,16 +131,22 @@ void switchLED()
       {
         switch (color_array[i][j]) {
           case'R':
-            leds[counter] = CRGB::Green;
+            leds[counter] = CRGB::Red;
             break;
           case'G':
-            leds[counter] = CRGB::Red;
+            leds[counter] = CRGB::Green;
             break;
           case'B':
             leds[counter] = CRGB::Blue;
             break;
           case'P':
-            leds[counter] = CRGB::Aquamarine;
+            leds[counter] = CRGB::Purple;
+            break;
+          case 'O':
+            leds[counter] = CRGB::Orange;
+            break;
+          case 'W':
+            leds[counter] = CRGB::White;
             break;
         }
 
@@ -176,16 +169,22 @@ void switchLED()
       {
         switch (aux[j]) {
           case'R':
-            leds[counter] = CRGB::Green;
+            leds[counter] = CRGB::Red;
             break;
           case'G':
-            leds[counter] = CRGB::Red;
+            leds[counter] = CRGB::Green;
             break;
           case'B':
             leds[counter] = CRGB::Blue;
             break;
           case'P':
-            leds[counter] = CRGB::Aquamarine;
+            leds[counter] = CRGB::Purple;
+            break;
+          case 'O':
+            leds[counter] = CRGB::Orange;
+            break;
+          case 'W':
+            leds[counter] = CRGB::White;
             break;
         }
 
@@ -211,6 +210,7 @@ void saveToColorArray(char temp_Array[ROWS][COLS])
   }
 }
 
+
 void DefineLED()
 {
   switch (pad_mode)
@@ -226,6 +226,7 @@ void DefineLED()
           {'B', 'B', 'B', 'P', 'P'},
         };
         saveToColorArray(temp_color_array);
+        switchLED();
       } else
       {
         char temp_color_array[ROWS][COLS] = {
@@ -236,6 +237,7 @@ void DefineLED()
           {'R', 'R', 'G', 'G', 'G'},
         };
         saveToColorArray(temp_color_array);
+        switchLED();
       }
       break;
 
@@ -243,32 +245,87 @@ void DefineLED()
       if (flip_mode == normal)
       {
         char temp_color_array[ROWS][COLS] = {
-          {'G', 'G', 'G', 'R', 'R'},
-          {'G', 'G', 'G', 'R', 'R'},
-          {'G', 'G', 'G', 'R', 'R'},
-          {'G', 'B', 'R', 'R', 'R'},
+          {'G', 'W', 'W', 'W', 'W'},
+          {'R', 'R', 'R', 'R', 'R'},
+          {'B', 'B', 'B', 'B', 'G'},
+          {'O', 'O', 'O', 'O', 'P'},
           {'B', 'B', 'B', 'P', 'P'},
         };
         saveToColorArray(temp_color_array);
+        switchLED();
       } else
       {
         char temp_color_array[ROWS][COLS] = {
           {'P', 'P', 'B', 'B', 'B'},
-          {'R', 'R', 'R', 'B', 'G'},
+          {'P', 'R', 'R', 'B', 'G'},
           {'R', 'R', 'G', 'G', 'G'},
           {'R', 'R', 'G', 'G', 'G'},
           {'R', 'R', 'G', 'G', 'G'},
         };
         saveToColorArray(temp_color_array);
+        switchLED();
       }
       break;
-  }
+    case greek:
+      if (flip_mode == normal)
+      {
+        char temp_color_array[ROWS][COLS] = {
+          {'R', 'R', 'R', 'R', 'R'},
+          {'R', 'R', 'R', 'R', 'R'},
+          {'R', 'R', 'R', 'R', 'R'},
+          {'R', 'R', 'R', 'R', 'P'},
+          {'B', 'B', 'B', 'P', 'P'},
+        };
+        saveToColorArray(temp_color_array);
+        switchLED();
+      } else
+      {
+        char temp_color_array[ROWS][COLS] = {
+          {'P', 'P', 'B', 'B', 'B'},
+          {'P', 'R', 'R', 'R', 'R'},
+          {'R', 'R', 'R', 'R', 'R'},
+          {'R', 'R', 'R', 'R', 'R'},
+          {'R', 'R', 'R', 'R', 'R'},
+        };
+        saveToColorArray(temp_color_array);
+        switchLED();
+      }
+      break;
+   }
 
-  switchLED();
+
 
   FastLED.show();
 }
 
+void iteratePadMode()
+{
+  switch (pad_mode)
+  {
+    case standard:
+      pad_mode = symbols;
+      break;
+    case symbols:
+      pad_mode = greek;
+      break;
+    case greek:
+      pad_mode = standard;
+      break;
+  }
+}
+
+void iterateFlipMode()
+{
+  switch (flip_mode)
+  {
+    case normal:
+      flip_mode = flipped;
+      break;
+    case flipped:
+      flip_mode = normal;
+      break;
+  }
+}
 
 void loop() {
   DefineLED();
@@ -279,20 +336,18 @@ void loop() {
     Keyboard.releaseAll();
     Serial.print(key);
 
-
-
-
-
     switch (key) {
       case '1':
         if (pad_mode == standard)
         {
           Keyboard.print("1");
-        } else if (pad_mode == symbols)
+        }
+        if (pad_mode == symbols)
         {
           printSZ('\\');
           Keyboard.print("left(");
-        } else if (greek)
+        }
+        if (pad_mode == greek)
         {
           printSZ('\\');
           Keyboard.print("alpha");
@@ -300,38 +355,169 @@ void loop() {
         break;
 
       case '2':
-        Keyboard.print("2");
+        if (pad_mode == standard)
+        {
+          Keyboard.print("2");
+        }
+        if (pad_mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("right)");
+        }
+        if (pad_mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("beta");
+        }
         break;
 
       case '3':
-        Keyboard.print("3");
+        if (pad_mode == standard)
+        {
+          Keyboard.print("3");
+        }
+        if (pad_mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("left");
+          printSZ('{');
+        }
+        if (pad_mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("gamma");
+        }
         break;
       case '4':
-        Keyboard.print("4");
+        if (pad_mode == standard)
+        {
+          Keyboard.print("4");
+        }
+        if (pad_mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("int");
+          printSZ('\\');
+          Keyboard.print("limits_");
+          printSZ('{');
+          printSZ('}');
+          Keyboard.print("^");
+          printSZ('{');
+          printSZ('}');
+          moveLeft(4);
+        }
+        if (pad_mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("eta");
+        }
         break;
 
       case '5':
-        Keyboard.print("5");
+        if (pad_mode == standard)
+        {
+          Keyboard.print("5");
+        }
+        if (pad_mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("sum");
+          printSZ('\\');
+          Keyboard.print("limits_");
+          printSZ('{');
+          printSZ('}');
+          Keyboard.print("^");
+          printSZ('{');
+          printSZ('}');
+          moveLeft(4);
+        }
+        if (pad_mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("theta");
+        }
         break;
 
       case '6':
-        Keyboard.print("6");
+        if (pad_mode == standard)
+        {
+          Keyboard.print("6");
+        }
+        if (pad_mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("oint_");
+          printSZ('{');
+          printSZ('}');
+          Keyboard.print("^");
+          printSZ('{');
+          printSZ('}');
+          moveLeft(1);
+        }
+        if (pad_mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("kappa");
+        }
         break;
 
       case '7':
-        Keyboard.print("7");
+        if (pad_mode == standard)
+        {
+          Keyboard.print("7");
+        }
+        if (pad_mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("ll");
+        }
+        if (pad_mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("pi");
+        }
         break;
 
       case '8':
-        Keyboard.print("8");
+        if (pad_mode == standard)
+        {
+          Keyboard.print("8");
+        }
+        if (pad_mode == symbols)
+        {
+          printSZ('\\');
+          Keyboard.print("leq");
+        }
+        if (pad_mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("rho");
+        }
         break;
 
       case '9':
-        Keyboard.print("9");
+        if (pad_mode == standard)
+        {
+          Keyboard.print("9");
+        }
+        if (pad_mode == symbols)
+        {
+          Keyboard.print("=");
+        }
+        if (pad_mode == greek)
+        {
+          printSZ('\\');
+          Keyboard.print("pi");
+        }
         break;
 
       case '0':
         Keyboard.print("0");
+        break;
+
+      case 'b':
+        Keyboard.press(KEY_BACKSPACE);
+        Keyboard.releaseAll();
         break;
 
       case 'u':
@@ -350,12 +536,11 @@ void loop() {
         moveRight(1);
         break;
 
-      case 'b':
-        Keyboard.press(KEY_BACKSPACE);
-        Keyboard.releaseAll();
+      case 'A':
+
         break;
 
-      case 'A':
+      case 'B':
         printSZ('\\');
         Keyboard.print("frac");
         printSZ('{');
@@ -366,63 +551,33 @@ void loop() {
         moveLeft(3);
         break;
 
-      case 'B':
-        Keyboard.releaseAll();
-        Keyboard.press(0);
-        Keyboard.releaseAll();
-        printSZ('$');
-        Keyboard.print(" ");
-        printSZ('$');
+      case 'E':
+        iterateFlipMode();
+        break;
+
+      case 'F':
         printSZ('\\');
+
+        Keyboard.print("begin");
+        printSZ('{');
+        Keyboard.print("align*");
+        printSZ('}');
+        Keyboard.print("\n \n");
         printSZ('\\');
-        moveLeft(4);
+        Keyboard.print("end");
+        printSZ('{');
+        Keyboard.print("align*");
+        printSZ('}');
 
         break;
 
-      case 'C':
-
+      case 'G':
         printSZ('\\');
         Keyboard.print("cdot ");
         break;
-      /*
-            case 'D':
 
-              int number = wait_for_number();
-
-
-              Keyboard.releaseAll();
-              printSZ('\\');
-              Keyboard.print("begin");
-              printSZ('{');
-              Keyboard.print("itemize");
-              printSZ('}');
-
-              Keyboard.press(KEY_RETURN);
-              Keyboard.releaseAll();
-              Keyboard.print("  ");
-
-              for (int i = 0; i < number; i++)
-              {
-                printSZ('\\');
-                Keyboard.print("item ");
-                Keyboard.press(KEY_RETURN);
-                Keyboard.releaseAll();
-              }
-
-
-              moveLeft(2);
-              printSZ('\\');
-              Keyboard.print("end");
-              printSZ('{');
-              Keyboard.print("itemize");
-              printSZ('}');
-
-
-              Keyboard.releaseAll();
-              break;
-      */
       case 'J':
-        //flip_keyboard(led_id[ROWS][COLS]);
+        iteratePadMode();
         break;
 
 
