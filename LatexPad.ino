@@ -641,7 +641,7 @@ void loop() {
         if (mode == standard)
         {
           Keyboard.press(KEY_LEFT_CTRL);
-          Keyboard.press("c");
+          Keyboard.press('c');
           Keyboard.releaseAll();
         }
         if (mode == symbols)
@@ -661,7 +661,7 @@ void loop() {
         if (mode == standard)
         {
           Keyboard.press(KEY_LEFT_CTRL);
-          Keyboard.press("x");
+          Keyboard.press('x');
           Keyboard.releaseAll();
         }
         if (mode == symbols)
@@ -738,7 +738,7 @@ void loop() {
         if (mode == standard)
         {
           Keyboard.press(KEY_LEFT_CTRL);
-          Keyboard.press("v");
+          Keyboard.press('v');
           Keyboard.releaseAll();
         }
         if (mode == symbols)
@@ -762,11 +762,11 @@ void loop() {
         }
         break;
 
-      case 'J':
+      case 'J': 
         if (mode == standard)
         {
           Keyboard.press(KEY_LEFT_CTRL);
-          Keyboard.press("z");
+          Keyboard.press('z');
           Keyboard.releaseAll();
         }
         if (mode == symbols)
@@ -855,10 +855,12 @@ void loop() {
 
       case 'N':
         iterateFlipMode();
+        delay(2);
         break;
 
       case 'O':
         iteratePadMode();
+        delay(2);
         break;
     }
     delay(100);
