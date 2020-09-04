@@ -855,12 +855,12 @@ void loop() {
 
       case 'N':
         iterateFlipMode();
-        delay(2);
+        delay(5);
         break;
 
       case 'O':
         iteratePadMode();
-        delay(2);
+        delay(5);
         break;
     }
     delay(100);
