@@ -82,6 +82,12 @@ void printSZ(char a)
     Keyboard.press(36);
     Keyboard.releaseAll();
   }
+  else if (a == '_')
+  {
+    Keyboard.press(KEY_LEFT_SHIFT);
+    Keyboard.press('-');
+    Keyboard.releaseAll();
+  }
 }
 
 void moveLeft(int count)
@@ -533,7 +539,8 @@ void loop() {
           printSZ('\\');
           Keyboard.print("sum");
           printSZ('\\');
-          Keyboard.print("limits_");
+          Keyboard.print("limits");
+          printSZ('_');
           printSZ('{');
           printSZ('}');
           Keyboard.print("^");
@@ -593,9 +600,10 @@ void loop() {
       case 'C':
         if (mode == standard)
         {
-          Keyboard.print("_");
+          printSZ('_');
           printSZ('{');
           printSZ('}');
+          moveLeft(1);
         }
         if (mode == symbols)
         {
@@ -615,6 +623,7 @@ void loop() {
           Keyboard.print("^");
           printSZ('{');
           printSZ('}');
+          moveLeft(1);
         }
         if (mode == symbols)
         {
@@ -677,7 +686,8 @@ void loop() {
           printSZ('\\');
           Keyboard.print("int");
           printSZ('\\');
-          Keyboard.print("limits_");
+          Keyboard.print("limits");
+          printSZ('_');
           printSZ('{');
           printSZ('}');
           Keyboard.print("^");
@@ -708,7 +718,8 @@ void loop() {
           printSZ('\\');
           Keyboard.print("oint");
           printSZ('\\');
-          Keyboard.print("limits_");
+          Keyboard.print("limits");
+          printSZ('_');
           printSZ('{');
           printSZ('}');
           Keyboard.print("^");
@@ -735,7 +746,8 @@ void loop() {
           printSZ('\\');
           Keyboard.print("ooint");
           printSZ('\\');
-          Keyboard.print("limits_");
+          Keyboard.print("limits");
+          printSZ('_');
           printSZ('{');
           printSZ('}');
           Keyboard.print("^");
